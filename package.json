@@ -1,0 +1,14 @@
+{
+  "name": "nodecraft",
+  "version": "0.0.1",
+  "description": "Node.JS Minecraft server",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yaroslav Gaponov",
+  "license": "MIT"
+}
