@@ -1,5 +1,5 @@
 module.exports = {
     Server: require('./src/server'),
-    Pid: require('./src/pid'),
-    Chunk: require('./src/chunk')
+    Chunk: require('./src/chunk'),
+    PIDS: require('./src/parser').PIDS
 };

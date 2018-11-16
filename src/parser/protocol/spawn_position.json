@@ -1,0 +1,9 @@
+{
+    "pid": 6,
+    "name": "spawn_position",
+    "format": {
+        "x": "Int",
+        "y": "Int",
+        "z": "Int"
+    }
+}

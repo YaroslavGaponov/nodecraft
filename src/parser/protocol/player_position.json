@@ -1,0 +1,10 @@
+{
+    "pid": 11,
+    "name": "player_position",
+    "format": {
+        "x": "Double",
+        "y": "Double",
+        "stance": "Double",
+        "z": "Double"
+    }
+}

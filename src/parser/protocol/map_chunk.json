@@ -1,0 +1,12 @@
+{
+    "pid": 51,
+    "name": "map_chunk",
+    "format": {
+        "x": "SInt",
+        "z": "SInt",
+        "solid": "Byte",
+        "primary_bitmap": "Short",
+        "add_bitmap": "Short",
+        "data": "Chunk"
+    }
+}

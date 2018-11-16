@@ -1,0 +1,10 @@
+{
+    "pid": 204,
+    "name": "client_settings",
+    "format": {
+        "distance": "Byte",
+        "chat": "Byte",
+        "difficulty": "Byte",
+        "show_cape": "Byte"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "pid": 10,
+    "name": "player",
+    "format": {
+        "on_ground": "Byte"
+    }
+}

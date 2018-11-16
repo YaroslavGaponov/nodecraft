@@ -1,0 +1,13 @@
+{
+    "pid": 1,
+    "name": "login",
+    "format": {
+        "eid": "Int",
+        "level_type": "Str",
+        "game_mode": "Byte",
+        "dimension": "Byte",
+        "difficalty": "Byte",
+        "magic": "Byte",
+        "max_player": "Byte"
+    }
+}

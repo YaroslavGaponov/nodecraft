@@ -1,7 +1,21 @@
+Nodecraft
+======================================
+Node.JS Minecraft server 
+
+# Start demo server
+```sh
+npm run demo
+```
+
+![nodecraft](https://raw.githubusercontent.com/YaroslavGaponov/nodecraft/master/images/nodecraft.jpg "nodecraft")
+
+
+# Simple server
+```js
 const {
-    Pid,
     Server,
-    Chunk
+    Chunk,
+    PIDS
 } = require('../index.js');
 
 var server = new Server(25565);
@@ -12,7 +26,7 @@ server
         console.log(packet);
         server
             .send(clientID, {
-                pid: Pid.login,
+                pid: PIDS.login,
                 eid: 0,
                 level_type: 'flat',
                 game_mode: 1,
@@ -22,13 +36,13 @@ server
                 max_player: 25
             })
             .send(clientID, {
-                pid: Pid.spawn_position,
+                pid: PIDS.spawn_position,
                 x: 0,
                 y: 30,
                 z: 0
             })
             .send(clientID, {
-                pid: Pid.player_position_and_look,
+                pid: PIDS.player_position_and_look,
                 x: 0,
                 stance: 94.62,
                 y: 30,
@@ -37,13 +51,13 @@ server
                 pitch: 0,
                 on_ground: 1
             });
-        
+
 
         for (let x = -7; x <= 7; x++) {
             for (let z = -7; z <= 7; z++) {
                 const chunk = new Chunk();
                 server.send(clientID, {
-                    pid: Pid.map_chunk,
+                    pid: PIDS.map_chunk,
                     x,
                     z,
                     solid: 1,
@@ -56,3 +70,4 @@ server
 
     })
     .start();
+```

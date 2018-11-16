@@ -2,7 +2,6 @@ const events = require('events');
 const net = require('net');
 
 const Parser = require('./parser');
-const Pid = require('./pid');
 
 const PING_TIMEOUT = 1000;
 
@@ -15,21 +14,19 @@ class Server extends events.EventEmitter {
 
         this._clients = new Map();
 
-        this._parser = new Parser();
-
         this._server = net.createServer(client => {
             const clientID = Math.random().toString(36).slice(2);
             this._clients.set(clientID, client);
             this.emit('client:join', clientID);
             let timerId = setInterval(_ => this.send(clientID, {
-                pid: Pid.keepalive,
+                pid: Parser.PIDS.keepalive,
                 token: 0
             }), PING_TIMEOUT);
             client
                 .on('data', chunk => {
-                    const message = this._parser.unpack(chunk);
+                    const message = Parser.unpack(chunk);
                     console.log(message.packet);
-                    this.emit(message.event, clientID, message.packet);
+                    this.emit('packet:' + message.name, clientID, message.packet);
                 })
                 .on('end', _ => {
                     clearInterval(timerId);
@@ -50,7 +47,7 @@ class Server extends events.EventEmitter {
     }
 
     send(clientID, packet) {
-        this._clients.get(clientID).write(this._parser.pack(packet));
+        this._clients.get(clientID).write(Parser.pack(packet));
         return this;
     }
 }

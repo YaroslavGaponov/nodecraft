@@ -1,4 +1,4 @@
-const Type = {
+module.exports = Object.freeze({
     Byte: 'Byte',
     Short: 'Short',
     Int: 'Int',
@@ -8,6 +8,4 @@ const Type = {
     Float: 'Float',
     Str: 'Str',
     Chunk: 'Chunk'
-};
-
-module.exports = Object.freeze(Type);
+});

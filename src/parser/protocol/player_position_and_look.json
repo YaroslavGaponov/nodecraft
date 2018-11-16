@@ -1,0 +1,13 @@
+{
+    "pid": 13,
+    "name": "player_position_and_look",
+    "format": {
+        "x": "Double",
+        "stance": "Double",
+        "y": "Double",
+        "z": "Double",
+        "yaw": "Float",
+        "pitch": "Float",
+        "on_ground": "Byte"
+    }
+}

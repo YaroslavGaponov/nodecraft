@@ -1,0 +1,10 @@
+{
+    "pid": 2,
+    "name": "handshake",
+    "format": {
+        "protocol_version": "Byte",
+        "username": "Str",
+        "server_address": "Str",
+        "server_port": "Int"
+    }
+}
