@@ -48,7 +48,7 @@ class Chunk {
         }
     }
 
-    buffer() {
+    raw() {
         return this._block;
     }
 

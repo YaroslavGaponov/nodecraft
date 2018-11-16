@@ -1,0 +1,7 @@
+{
+    "pid": 101,
+    "name": "close_window",
+    "format": {
+        "window_id": "Byte"
+    }
+}

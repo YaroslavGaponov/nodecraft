@@ -32,6 +32,10 @@ function unpack(buffer) {
 function _read(type, data) {
     let value;
     switch (type) {
+        case Types.Bool:
+            value = !!data.buffer.readUInt8(data.position);
+            data.position += 1;
+            break;
         case Types.Byte:
             value = data.buffer.readUInt8(data.position);
             data.position += 1;

@@ -1,0 +1,11 @@
+{
+    "pid": 14,
+    "name": "player_digging",
+    "format": {
+        "status": "Byte",
+        "x": "Int",
+        "y": "Byte",
+        "z": "Int",
+        "face": "Byte"
+    }
+}

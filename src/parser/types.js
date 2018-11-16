@@ -1,4 +1,5 @@
 module.exports = Object.freeze({
+    Bool: 'Bool',
     Byte: 'Byte',
     Short: 'Short',
     Int: 'Int',

@@ -25,6 +25,10 @@ function pack(packet) {
 function _write(type, value) {
     let buffer;
     switch (type) {
+        case Types.Bool:
+            buffer = new Buffer(1);
+            buffer.writeUInt8(value ? 1 : 0, 0);
+            break;
         case Types.Byte:
             buffer = new Buffer(1);
             buffer.writeUInt8(value, 0);
