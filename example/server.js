@@ -58,6 +58,23 @@ server
             }
         }
 
+        setInterval(_ =>
+            server.send(clientID, {
+                pid: PIDS.explosion,
+                x: 0,
+                y: 20,
+                z: 0,
+                radius: 3,
+                records: [
+                    [-1, -1, -1],
+                    [0, 0, 0],
+                    [1, 1, 1]
+                ],
+                player_motion_x: 0,
+                player_motion_y: 0,
+                player_motion_z: 0,
+            }), 1000);
+
     })
     .on('packet:kick', (clientId, packet) => {
         console.log(`Bye user <${users.get(clientId)}>!`);

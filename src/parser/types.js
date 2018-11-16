@@ -8,5 +8,6 @@ module.exports = Object.freeze({
     Double: 'Double',
     Float: 'Float',
     Str: 'Str',
+    Record: 'Record',
     Chunk: 'Chunk'
 });

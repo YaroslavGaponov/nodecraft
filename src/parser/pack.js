@@ -65,6 +65,20 @@ function _write(type, value) {
             }
             s.copy(buffer, 2);
             break;
+        case Types.Record:
+            buffer = new Buffer(4 + (3 * value.length));
+            let p = 0;
+            buffer.writeInt32BE(value.length, p);
+            p += 4;
+            for (let i = 0; i < value.length; i++) {
+                buffer.writeInt8(value[i][0], p);
+                p++;
+                buffer.writeInt8(value[i][1], p);
+                p++;
+                buffer.writeInt8(value[i][2], p);
+                p++;
+            }
+            break;
         case Types.Chunk:
             const data = zlib.deflateSync(value);
             buffer = new Buffer(data.length + 4);

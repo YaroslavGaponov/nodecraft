@@ -1,0 +1,14 @@
+{
+    "pid": 60,
+    "name": "explosion",
+    "format": {
+        "x": "Double",
+        "y": "Double",
+        "z": "Double",
+        "radius": "Float",
+        "records": "Record",
+        "player_motion_x": "Float",
+        "player_motion_y": "Float",
+        "player_motion_z": "Float"
+    }
+}

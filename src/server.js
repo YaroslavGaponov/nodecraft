@@ -25,6 +25,7 @@ class Server extends events.EventEmitter {
             client
                 .on('data', chunk => {
                     const message = Parser.unpack(chunk);
+                    
                     console.log(message);
                     this.emit('packet:' + message.name, clientID, message.packet);
                 })
