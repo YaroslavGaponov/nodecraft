@@ -25,7 +25,6 @@ server
     })
 
     .on('packet:handshake', (clientID, packet) => {
-
         [...users.keys()]
         .forEach(e => server.send(e, {
             pid: PIDS.chat_message,
