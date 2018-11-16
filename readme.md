@@ -19,15 +19,40 @@ const {
 } = require('../index.js');
 
 const users = new Map();
+let timerId;
 
-var server = new Server(25565);
+const server = new Server(25565);
 server
-    .on('client:join', clientID => console.log(`client:join ${clientID}`))
-    .on('client:leave', clientID => console.log(`client:leave ${clientID}`))
-    .on('packet:chat_message', (clientID, packet) => console.log(`chat: ${users.get(clientID)}> ${packet.message}`))
+
+    .on('client:leave', clientID => {
+        clearInterval(timerId);
+        users.delete(clientID);
+    })
+
+    .on('packet:chat_message', (clientID, packet) => {
+        [...users.keys()]
+        .filter(e => e != clientID)
+            .forEach(e => server.send(e, {
+                pid: PIDS.chat_message,
+                message: users.get(clientID) + '> ' + packet.message
+            }));
+    })
+
     .on('packet:handshake', (clientID, packet) => {
-        console.log(`Hi user <${packet.username}>!`);
+
+        [...users.keys()]
+        .forEach(e => server.send(e, {
+            pid: PIDS.chat_message,
+            message: `New user ${packet.username}!`
+        }));
+
+        server.send(clientID, {
+            pid: PIDS.chat_message,
+            message: `Hi, ${packet.username}!`
+        });
+
         users.set(clientID, packet.username);
+
         server
             .send(clientID, {
                 pid: PIDS.login,
@@ -72,11 +97,28 @@ server
             }
         }
 
+        timerId = setInterval(_ =>
+            server.send(clientID, {
+                pid: PIDS.explosion,
+                x: 0,
+                y: 20,
+                z: 0,
+                radius: 3,
+                records: [
+                    [-1, -1, -1],
+                    [0, 0, 0],
+                    [1, 1, 1]
+                ],
+                player_motion_x: 0,
+                player_motion_y: 0,
+                player_motion_z: 0,
+            }), 1000);
+
     })
-    .on('packet:kick', (clientId, packet) => {
-        console.log(`Bye user <${users.get(clientId)}>!`);
-        console.log(`Reason: ${packet.reason}`);
-        users.delete(clientId);
+
+    .on('packet:kick', (clientID, packet) => {
+        console.log(`See you, ${users.get(clientID)}! ${packet.reason}!`);
     })
+
     .start();
 ```
