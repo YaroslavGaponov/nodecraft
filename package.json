@@ -1,9 +1,10 @@
 {
   "name": "nodecraft",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node.JS Minecraft server",
   "main": "index.js",
   "directories": {
+    "doc": "docs",
     "example": "example"
   },
   "scripts": {
@@ -11,5 +12,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yaroslav Gaponov",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YaroslavGaponov/nodecraft.git"
+  },
+  "keywords": [
+    "minecraft",
+    "server"
+  ],
+  "bugs": {
+    "url": "https://github.com/YaroslavGaponov/nodecraft/issues"
+  },
+  "homepage": "https://github.com/YaroslavGaponov/nodecraft#readme"
 }
