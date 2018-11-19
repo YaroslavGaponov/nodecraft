@@ -30,7 +30,6 @@ server.on('packet:handshake', (clientID, packet) => {
                 on_ground: 1
             });
 
-
         for (let x = -10; x <= 10; x++) {
             for (let z = -10; z <= 10; z++) {
                 server.map_chunk(clientID, {

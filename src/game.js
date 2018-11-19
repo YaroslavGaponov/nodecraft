@@ -13,6 +13,7 @@ class Game extends Server {
         this
             .use(Plugin.keepalive)
             .use(Plugin.chat)
+            .use(Plugin.time)
             .use(Plugin.ping({
                 PROTOCOL: Parser.PROTOCOL,
                 VERSION: Parser.VERSION,

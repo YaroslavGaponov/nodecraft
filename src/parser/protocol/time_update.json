@@ -1,0 +1,9 @@
+{
+    "pid": 4,
+    "name": "time_update",
+    "direction": "server_to_client",
+    "format": {
+        "age_of_the_world": "Long",
+        "time_of_day": "Long"
+    }
+}

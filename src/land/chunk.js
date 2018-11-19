@@ -12,8 +12,6 @@ class Chunk {
                             this.setType(x, 2, z, 7);
                         }
                     }
-                    this.setLightBlock(x, y, z, 15);
-                    this.setLightSky(x, y, z, 15);
                 }
             }
         }

@@ -37,7 +37,7 @@ class Server extends events.EventEmitter {
                         let packet = this._parser.unpack(Buffer.concat(chunks));
                         chunks = [];
                         this.emit('packet:' + packet.name, clientID, packet);
-                        console.log(packet);
+                        //console.log(packet);
                     } catch (ex) {}
                 })
                 .on('end', _ => {
@@ -51,7 +51,8 @@ class Server extends events.EventEmitter {
     }
 
     start(port = 25565, host = '0.0.0.0') {
-        this._server.listen(port, host, _ => this.emit('plugin:start'));
+        this.emit('plugin:start')
+        this._server.listen(port, host);
         return this;
     }
 

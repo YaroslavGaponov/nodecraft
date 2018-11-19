@@ -45,6 +45,11 @@ function _write(type, value) {
             buffer = Buffer.allocUnsafe(4);
             buffer.writeUInt32BE(value, 0);
             break;
+        case Types.Long:
+            buffer = Buffer.allocUnsafe(8);
+            buffer.writeUInt32BE(0, 0);
+            buffer.writeUInt32BE(value, 4);
+            break;
         case Types.Double:
             buffer = Buffer.allocUnsafe(8);
             buffer.writeDoubleBE(value, 0);
