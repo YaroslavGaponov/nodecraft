@@ -1,7 +1,6 @@
 class Chunk {
     constructor() {
-        this._block = new Buffer(196864);
-        this._block.fill(0);
+        this._block = Buffer.alloc(196864, 0);
 
         for (let x = 0; x < 16; x++) {
             for (let z = 0; z < 16; z++) {
