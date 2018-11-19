@@ -60,17 +60,18 @@ class Server extends events.EventEmitter {
         return this;
     }
 
-    use(plugin) {
-        plugin(this);
-        return this;
-    }
-
     send(clientID, packet) {
         if (this._clients.has(clientID)) {
             this._clients.get(clientID).write(this._parser.pack(packet));
         }
         return this;
     }
+
+    use(plugin) {
+        plugin(this);
+        return this;
+    }
+
 }
 
 module.exports = Server;

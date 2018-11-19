@@ -3,35 +3,21 @@ const Parser = require('./parser');
 const Plugin = require('./plugins');
 const Land = require('./land');
 
-class Game {
+class Game extends Server {
 
     constructor(options = {}) {
-        this._server = new Server(Parser);
+        super(Parser);
+
         this._land = new Land();
 
-        this._server
+        this
             .use(Plugin.keepalive)
             .use(Plugin.chat)
             .use(Plugin.ping({
                 PROTOCOL: Parser.PROTOCOL,
                 VERSION: Parser.VERSION,
-                USERS: options.USERS || Number.MAX_SAFE_INTEGER
+                USERS: options.USERS || 20
             }));
-    }
-
-    start(port, host) {
-        this._server.start(port, host);
-        return this;
-    }
-
-    use(plugin) {
-        this._server.use(plugin);
-        return this;
-    }
-
-    stop() {
-        this._server.stop();
-        return this;
     }
 
     getLand(x, z) {
