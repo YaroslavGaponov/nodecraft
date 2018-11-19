@@ -33,11 +33,12 @@ class Server extends events.EventEmitter {
             client
                 .on('data', chunk => {
                     chunks.push(chunk);
-                    const result = this._parser.unpack(Buffer.concat(chunks));
-                    chunks = result.tail.length > 0 ? [result.tail] : [];
-                    result.messages.forEach(message => {
-                        this.emit('packet:' + message.name, clientID, message.packet);
-                    });
+                    try {
+                        let packet = this._parser.unpack(Buffer.concat(chunks));
+                        chunks = [];
+                        this.emit('packet:' + packet.name, clientID, packet);
+                        console.log(packet);
+                    } catch (ex) {}
                 })
                 .on('end', _ => {
                     this.emit('client:leave', clientID);

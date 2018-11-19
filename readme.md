@@ -44,8 +44,9 @@ server.on('packet:handshake', (clientID, packet) => {
                 on_ground: 1
             });
 
-        for (let x = -7; x <= 7; x++) {
-            for (let z = -7; z <= 7; z++) {
+
+        for (let x = -10; x <= 10; x++) {
+            for (let z = -10; z <= 10; z++) {
                 server.map_chunk(clientID, {
                     x,
                     z,
@@ -56,23 +57,22 @@ server.on('packet:handshake', (clientID, packet) => {
                 });
             }
         }
-
-        timerId = setInterval(_ =>
-            server.explosion(clientID, {
-                x: 0,
-                y: 20,
-                z: 0,
-                radius: 3,
-                records: [
-                    [-1, -1, -1],
-                    [0, 0, 0],
-                    [1, 1, 1]
-                ],
-                player_motion_x: 0,
-                player_motion_y: 0,
-                player_motion_z: 0,
-            }), 1000);
-
     })
+    .on('packet:keepalive', clientID =>
+        server.explosion(clientID, {
+            x: 0,
+            y: 20,
+            z: 0,
+            radius: 3,
+            records: [
+                [-1, -1, -1],
+                [0, 0, 0],
+                [1, 1, 1]
+            ],
+            player_motion_x: 0,
+            player_motion_y: 0,
+            player_motion_z: 0
+        })
+    )
     .start(25565);
 ```
