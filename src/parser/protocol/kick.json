@@ -1,6 +1,7 @@
 {
     "pid": 255,
     "name": "kick",
+    "direction": "both",
     "format": {
         "reason": "Str"
     }

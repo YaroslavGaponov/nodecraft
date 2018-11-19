@@ -1,6 +1,7 @@
 {
     "pid": 11,
     "name": "player_position",
+    "direction": "client_to_server",
     "format": {
         "x": "Double",
         "y": "Double",

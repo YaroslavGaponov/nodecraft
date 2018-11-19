@@ -1,6 +1,7 @@
 {
     "pid": 1,
     "name": "login",
+    "direction": "server_to_client",
     "format": {
         "eid": "Int",
         "level_type": "Str",

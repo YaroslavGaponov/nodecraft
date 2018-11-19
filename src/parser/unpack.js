@@ -11,21 +11,36 @@ function unpack(buffer) {
         buffer
     };
 
-    const packet = Object.create(null);
-    packet.pid = _read(Types.Byte, data);
+    const messages = [];
 
-    const info = protocol.PACKETS[packet.pid];
+    let start = data.position;
+    try {
+        while (start < buffer.length) {
+            const packet = Object.create(null);
+            packet.pid = _read(Types.Byte, data);
 
-    assert(info, `Packet 0x${packet.pid.toString(16)} is unknown`);
+            const info = protocol.PACKETS[packet.pid];
 
-    for (let name in info.format) {
-        assert(info.format[name] in Types, `Incorrect type ${info.format[name]}`);
-        packet[name] = _read(info.format[name], data);
+            assert(info, `Packet 0x${packet.pid.toString(16)} is unknown`);
+
+            for (let name in info.format) {
+                assert(info.format[name] in Types, `Incorrect type ${info.format[name]}`);
+                packet[name] = _read(info.format[name], data);
+            }
+
+            messages.push({
+                name: info.name,
+                packet
+            });
+
+            start = data.position;
+        }
+    } catch (ex) {
+
     }
-
     return {
-        name: info.name,
-        packet
+        tail: buffer.slice(start),
+        messages
     };
 }
 

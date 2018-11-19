@@ -1,6 +1,7 @@
 {
     "pid": 204,
     "name": "client_settings",
+    "direction": "both",
     "format": {
         "distance": "Byte",
         "chat": "Byte",

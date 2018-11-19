@@ -1,6 +1,7 @@
 {
     "pid": 12,
     "name": "player_look",
+    "direction": "client_to_server",
     "format": {
         "pitch": "Float",
         "on_ground": "Byte"

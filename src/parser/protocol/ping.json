@@ -1,5 +1,8 @@
 {
     "pid": 254,
     "name": "ping",
-    "format": []
+    "direction": "client_to_server",
+    "format": {
+        "magic": "Byte"
+    }    
 }

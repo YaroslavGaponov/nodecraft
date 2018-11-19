@@ -11,7 +11,7 @@ const arr = fs
     .map(name => require(name));
 
 for (let i = 0; i < arr.length; i++) {
-    PIDS[arr[i].name] = arr[i].pid;
+    PIDS[arr[i].name] = arr[i];
     PACKETS[arr[i].pid] = arr[i];
 }
 

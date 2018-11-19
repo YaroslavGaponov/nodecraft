@@ -26,35 +26,35 @@ function _write(type, value) {
     let buffer;
     switch (type) {
         case Types.Bool:
-            buffer = new Buffer(1);
+            buffer = Buffer.allocUnsafe(1);
             buffer.writeUInt8(value ? 1 : 0, 0);
             break;
         case Types.Byte:
-            buffer = new Buffer(1);
+            buffer = Buffer.allocUnsafe(1);
             buffer.writeUInt8(value, 0);
             break;
         case Types.Short:
-            buffer = new Buffer(2);
+            buffer = Buffer.allocUnsafe(2);
             buffer.writeUInt16BE(value, 0);
             break;
         case Types.SInt:
-            buffer = new Buffer(4);
+            buffer = Buffer.allocUnsafe(4);
             buffer.writeInt32BE(value, 0);
             break;
         case Types.Int:
-            buffer = new Buffer(4);
+            buffer = Buffer.allocUnsafe(4);
             buffer.writeUInt32BE(value, 0);
             break;
         case Types.Double:
-            buffer = new Buffer(8);
+            buffer = Buffer.allocUnsafe(8);
             buffer.writeDoubleBE(value, 0);
             break;
         case Types.Float:
-            buffer = new Buffer(4);
+            buffer = Buffer.allocUnsafe(4);
             buffer.writeFloatBE(value, 0);
             break;
         case Types.Str:
-            buffer = new Buffer(2 + (value.length << 1));
+            buffer = Buffer.allocUnsafe(2 + (value.length << 1));
             buffer.fill(0x20);
             buffer.writeUInt16BE(value.length, 0);
             const s = Buffer.from(value, 'ucs2');
@@ -66,7 +66,7 @@ function _write(type, value) {
             s.copy(buffer, 2);
             break;
         case Types.Record:
-            buffer = new Buffer(4 + (3 * value.length));
+            buffer = Buffer.allocUnsafe(4 + (3 * value.length));
             let p = 0;
             buffer.writeInt32BE(value.length, p);
             p += 4;
@@ -81,7 +81,7 @@ function _write(type, value) {
             break;
         case Types.Chunk:
             const data = zlib.deflateSync(value);
-            buffer = new Buffer(data.length + 4);
+            buffer = Buffer.allocUnsafe(data.length + 4);
             buffer.fill(0);
             buffer.writeInt32BE(data.length);
             data.copy(buffer, 4);

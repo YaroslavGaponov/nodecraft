@@ -1,6 +1,7 @@
 {
     "pid": 3,
     "name": "chat_message",
+    "direction": "both",
     "format": {
         "message": "Str"
     }

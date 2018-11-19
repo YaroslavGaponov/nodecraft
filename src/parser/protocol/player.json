@@ -1,6 +1,7 @@
 {
     "pid": 10,
     "name": "player",
+    "direction": "client_to_server",
     "format": {
         "on_ground": "Byte"
     }

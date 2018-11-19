@@ -1,6 +1,7 @@
 {
     "pid": 60,
     "name": "explosion",
+    "direction": "server_to_client",
     "format": {
         "x": "Double",
         "y": "Double",

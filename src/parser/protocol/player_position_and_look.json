@@ -1,6 +1,7 @@
 {
     "pid": 13,
     "name": "player_position_and_look",
+    "direction": "both",
     "format": {
         "x": "Double",
         "stance": "Double",

@@ -1,6 +1,7 @@
 {
     "pid": 18,
     "name": "animation",
+    "direction": "both",
     "format": {
         "animation": "Byte"
     }
