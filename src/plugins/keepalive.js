@@ -4,14 +4,14 @@ const MESSAGE = {
     token: 0
 };
 
-module.exports = server => {
+module.exports = root => {
     const clients = new Set();
 
     let timerId;
 
-    server
+    root
         .on('plugin:start', _ => {
-            timerId = setInterval(_ => clients.forEach(client => server.keepalive(client, MESSAGE), PING_TIMEOUT))
+            timerId = setInterval(_ => clients.forEach(client => root.getServer().keepalive(client, MESSAGE), PING_TIMEOUT))
         })
         .on('plugin:stop', _ => clearInterval(timerId))
         .on('packet:handshake', clientID => clients.add(clientID))

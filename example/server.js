@@ -1,11 +1,37 @@
+const fs = require('fs');
 const NodeCraft = require('../index.js');
 
-const server = new NodeCraft();
+const game = new NodeCraft();
 
-server.on('packet:handshake', (clientID, packet) => {
+// init world land
+for (let x = -160; x < 160; x++)
+    for (let z = -160; z < 160; z++) {
+        game.getLand().setType(x, 0, z, 1);
+        for (let y = 0; y < 255; y++) {
+            game.getLand().setLightSky(x, y, z, 15);
+        }
+    }
+
+
+//  init banner
+const banner = fs.readFileSync(__dirname + '/banner.txt').toString().split('\n').filter(Boolean);
+const px = banner.length >>> 1;
+const pz = banner[0].length >>> 1;
+for (let x = 0; x < banner.length; x++) {
+    for (let z = 0; z < banner[x].length; z++) {
+        if (banner[x][z] === '#') {
+            game.getLand().setType(x - px, 1, z - pz, 3);
+            game.getLand().setType(x - px, 2, z - pz, 3);
+            game.getLand().setLightBlock(x - px, 1, z - pz, 15);
+            game.getLand().setLightBlock(x - px, 2, z - pz, 15);
+        }
+    }
+}
+
+game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
 
-        server
+        game.getServer()
             .login(clientID, {
                 eid: 0,
                 level_type: 'flat',
@@ -30,21 +56,10 @@ server.on('packet:handshake', (clientID, packet) => {
                 on_ground: 1
             });
 
-        for (let x = -10; x <= 10; x++) {
-            for (let z = -10; z <= 10; z++) {
-                server.map_chunk(clientID, {
-                    x,
-                    z,
-                    solid: 1,
-                    primary_bitmap: 65535,
-                    add_bitmap: 65535,
-                    data: server.getLand(x, z).raw()
-                });
-            }
-        }
+        game.getLand().updateAll(clientID);
     })
     .on('packet:keepalive', clientID =>
-        server.explosion(clientID, {
+        game.getServer().explosion(clientID, {
             x: 0,
             y: 20,
             z: 0,

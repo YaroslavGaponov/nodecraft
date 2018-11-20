@@ -1,4 +1,4 @@
-module.exports = server => {
+module.exports = root => {
 
     const clients = new Set();
 
@@ -7,13 +7,13 @@ module.exports = server => {
 
     let timerId;
 
-    server
+    root
         .on('packet:handshake', clientID => clients.add(clientID))
         .on('client:leave', clientID => clients.delete(clientID))
         .on('plugin:start', _ => {
             timerId = setInterval(_ => {
                 clients.forEach(clientID =>
-                    server.time_update(clientID, {
+                    root.getServer().time_update(clientID, {
                         age_of_the_world: age_of_the_world += 20,
                         time_of_day: time_of_day += 20
                     }));

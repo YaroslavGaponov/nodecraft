@@ -1,10 +1,9 @@
-const events = require('events');
 const net = require('net');
 
-class Server extends events.EventEmitter {
-    constructor(parser) {
-        super();
+class Server {
+    constructor(parser, events) {
 
+        this._events = events;
         this._parser = parser;
 
         for (let name in this._parser.PIDS) {
@@ -18,7 +17,6 @@ class Server extends events.EventEmitter {
             }
         }
 
-
         this._clients = new Map();
 
         this._server = net.createServer(client => {
@@ -28,7 +26,7 @@ class Server extends events.EventEmitter {
             const clientID = Math.random().toString(36).slice(2);
 
             this._clients.set(clientID, client);
-            this.emit('client:join', clientID);
+            this._events.emit('client:join', clientID);
 
             client
                 .on('data', chunk => {
@@ -36,44 +34,41 @@ class Server extends events.EventEmitter {
                     try {
                         let packet = this._parser.unpack(Buffer.concat(chunks));
                         chunks = [];
-                        this.emit('packet:' + packet.name, clientID, packet);
-                        //console.log(packet);
-                    } catch (ex) {}
+                        this._events.emit('packet:' + packet.name, clientID, packet);
+                    } catch (ex) {
+                        this._events.emit('error', ex);
+                    }
                 })
                 .on('end', _ => {
-                    this.emit('client:leave', clientID);
+                    this._events.emit('client:leave', clientID);
                     this._clients.delete(clientID);
                 })
-                .on('error', err => {
-                    console.log(err);
-                });
+                .on('error', err => this._events.emit('error', err));
         });
     }
 
     start(port = 25565, host = '0.0.0.0') {
-        this.emit('plugin:start')
+        this._events.emit('plugin:start')
         this._server.listen(port, host);
         return this;
     }
 
     stop() {
-        this.emit('plugin:stop');
+        this._events.emit('plugin:stop');
         this._server.stop();
         return this;
     }
 
     send(clientID, packet) {
         if (this._clients.has(clientID)) {
-            this._clients.get(clientID).write(this._parser.pack(packet));
+            this._clients
+                .get(clientID)
+                .write(
+                    this._parser.pack(packet)
+                );
         }
         return this;
     }
-
-    use(plugin) {
-        plugin(this);
-        return this;
-    }
-
 }
 
 module.exports = Server;
