@@ -12,7 +12,7 @@ class Server {
                 this[name] = (clientID, packet) => {
                     packet.pid = p.pid;
                     this.send(clientID, packet);
-                    this._events.emit('packet:' + p.name, clientID, packet);
+                    this._events.emit('packet:' + p.name, clientID, packet, 'server_to_client');
                     return this;
                 };
             }
@@ -35,7 +35,7 @@ class Server {
                     try {
                         let packet = this._parser.unpack(Buffer.concat(chunks));
                         chunks = [];
-                        this._events.emit('packet:' + packet.name, clientID, packet);
+                        this._events.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
                     } catch (ex) {
                         this._events.emit('error', ex);
                     }
@@ -49,7 +49,7 @@ class Server {
     }
 
     start(port = 25565, host = '0.0.0.0') {
-        this._events.emit('plugin:start')
+        this._events.emit('plugin:start');
         this._server.listen(port, host);
         return this;
     }
