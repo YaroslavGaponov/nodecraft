@@ -1,7 +1,7 @@
 const net = require('net');
 
 class Server {
-    constructor(parser, events) {
+    constructor(events, parser) {
 
         this._events = events;
         this._parser = parser;
@@ -12,6 +12,7 @@ class Server {
                 this[name] = (clientID, packet) => {
                     packet.pid = p.pid;
                     this.send(clientID, packet);
+                    this._events.emit('packet:' + p.name, clientID, packet);
                     return this;
                 };
             }
@@ -61,11 +62,7 @@ class Server {
 
     send(clientID, packet) {
         if (this._clients.has(clientID)) {
-            this._clients
-                .get(clientID)
-                .write(
-                    this._parser.pack(packet)
-                );
+            this._clients.get(clientID).write(this._parser.pack(packet));            
         }
         return this;
     }

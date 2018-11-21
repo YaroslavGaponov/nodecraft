@@ -10,11 +10,11 @@ npm run demo
 ![nodecraft](https://raw.githubusercontent.com/YaroslavGaponov/nodecraft/master/images/nodecraft.jpg "nodecraft")
 
 
-# Simple server
+# Simple server without magic
 
 ```js
 const fs = require('fs');
-const NodeCraft = require('../index.js');
+const NodeCraft = require('nodecraft');
 
 const game = new NodeCraft();
 
@@ -45,9 +45,8 @@ for (let x = 0; x < banner.length; x++) {
 
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
-
-        game.getServer()
-            .login(clientID, {
+        with (game.getServer()) {
+            login(clientID, {
                 eid: 0,
                 level_type: 'flat',
                 game_mode: 1,
@@ -55,13 +54,13 @@ game.on('packet:handshake', (clientID, packet) => {
                 difficalty: 0,
                 magic: 0,
                 max_player: 25
-            })
-            .spawn_position(clientID, {
+            });
+            spawn_position(clientID, {
                 x: 0,
                 y: 30,
                 z: 0
-            })
-            .player_position_and_look(clientID, {
+            });
+            player_position_and_look(clientID, {
                 x: 0,
                 stance: 94.62,
                 y: 30,
@@ -70,24 +69,25 @@ game.on('packet:handshake', (clientID, packet) => {
                 pitch: 0,
                 on_ground: 1
             });
-
-        game.getLand().updateAll(clientID);
+        }
     })
-    .on('packet:keepalive', clientID =>
-        game.getServer().explosion(clientID, {
-            x: 0,
-            y: 20,
-            z: 0,
-            radius: 3,
-            records: [
-                [-1, -1, -1],
-                [0, 0, 0],
-                [1, 1, 1]
-            ],
-            player_motion_x: 0,
-            player_motion_y: 0,
-            player_motion_z: 0
-        })
-    )
+    .on('packet:keepalive', clientID => {
+        with (game.getServer()) {
+            explosion(clientID, {
+                x: 0,
+                y: 20,
+                z: 0,
+                radius: 3,
+                records: [
+                    [-1, -1, -1],
+                    [0, 0, 0],
+                    [1, 1, 1]
+                ],
+                player_motion_x: 0,
+                player_motion_y: 0,
+                player_motion_z: 0
+            });
+        }
+    })
     .start(25565);
 ```

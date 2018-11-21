@@ -9,14 +9,14 @@ class Game extends EventEmmiter {
     constructor(options = {}) {
         super();
 
-        this._server = new Server(Parser, this);
+        this._server = new Server(this, Parser);
         this._land = new Land(this);
 
         this
             .use(Plugin.keepalive)
             .use(Plugin.chat)
             .use(Plugin.time)
-            .use(Plugin.land)
+            .use(Plugin.land(options.DISTANCE))
             .use(Plugin.ping({
                 PROTOCOL: Parser.PROTOCOL,
                 VERSION: Parser.VERSION,
@@ -38,10 +38,12 @@ class Game extends EventEmmiter {
     }
     start(port, host) {
         this.getServer().start(port, host);
+        return this;
     }
 
     stop() {
         this.getServer().stop();
+        return this;
     }
 }
 

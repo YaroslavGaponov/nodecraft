@@ -2,8 +2,8 @@ const events = require('events');
 const Chunk = require('./chunk');
 
 class Land {
-    constructor(eventEmmiter) {
-        this._eventEmmiter = eventEmmiter;
+    constructor(events) {
+        this._events = events;
         this._map = new Map();
     }
 
@@ -13,18 +13,6 @@ class Land {
             this._map.set(chunkID, new Chunk());
         }
         return this._map.get(chunkID);
-    }
-
-    updateAll(clientID) {
-        for (let id of this._map.keys()) {
-            let [x, z] = id.split(':').map(e => parseInt(e));
-            this._eventEmmiter.emit('land:update', {
-                clientID,
-                x,
-                z
-            });
-        }
-        return this;
     }
 
     setType(x, y, z, type) {
