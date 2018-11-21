@@ -1,17 +1,7 @@
 const fs = require('fs');
-const NodeCraft = require('../index.js');
+const NodeCraft = require('../../index.js');
 
 const game = new NodeCraft();
-
-// init world land
-for (let x = -160; x < 160; x++)
-    for (let z = -160; z < 160; z++) {
-        game.getLand().setType(x, 0, z, 1);
-        for (let y = 0; y < 255; y++) {
-            game.getLand().setLightSky(x, y, z, 15);
-        }
-    }
-
 
 //  init banner
 const banner = fs.readFileSync(__dirname + '/banner.txt').toString().split('\n').filter(Boolean);
@@ -30,7 +20,7 @@ for (let x = 0; x < banner.length; x++) {
 
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
-        with (game.getServer()) {
+        with(game.getServer()) {
             login(clientID, {
                 eid: 0,
                 level_type: 'flat',
@@ -57,7 +47,7 @@ game.on('packet:handshake', (clientID, packet) => {
         }
     })
     .on('packet:keepalive', clientID => {
-        with (game.getServer()) {
+        with(game.getServer()) {
             explosion(clientID, {
                 x: 0,
                 y: 20,

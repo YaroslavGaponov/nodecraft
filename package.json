@@ -1,6 +1,6 @@
 {
   "name": "nodecraft",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Node.JS Minecraft server",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,8 @@
     "example": "example"
   },
   "scripts": {
-    "demo": "node ./example/server.js",
+    "banner": "node ./example/banner/server.js",
+    "city": "node ./example/city/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yaroslav Gaponov",

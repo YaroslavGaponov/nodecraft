@@ -4,7 +4,7 @@ Node.JS Minecraft server
 
 # Start demo server
 ```sh
-npm run demo
+npm run banner
 ```
 
 ![nodecraft](https://raw.githubusercontent.com/YaroslavGaponov/nodecraft/master/images/nodecraft.jpg "nodecraft")
@@ -17,16 +17,6 @@ const fs = require('fs');
 const NodeCraft = require('nodecraft');
 
 const game = new NodeCraft();
-
-// init world land
-for (let x = -160; x < 160; x++)
-    for (let z = -160; z < 160; z++) {
-        game.getLand().setType(x, 0, z, 1);
-        for (let y = 0; y < 255; y++) {
-            game.getLand().setLightSky(x, y, z, 15);
-        }
-    }
-
 
 //  init banner
 const banner = fs.readFileSync(__dirname + '/banner.txt').toString().split('\n').filter(Boolean);

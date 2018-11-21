@@ -10,7 +10,15 @@ class Land {
     getChunk(chunkX, chunkZ) {
         const chunkID = `${chunkX}:${chunkZ}`;
         if (!this._map.has(chunkID)) {
-            this._map.set(chunkID, new Chunk());
+            const chunk = new Chunk();
+            for (let x = 0; x < 16; x++)
+                for (let z = 0; z < 16; z++) {
+                    chunk.setType(x, 0, z, 3);
+                    for (let y = 1; y < 255; y++) {
+                        chunk.setLightSky(x, y, z, 15);
+                    }
+                }
+            this._map.set(chunkID, chunk);
         }
         return this._map.get(chunkID);
     }
