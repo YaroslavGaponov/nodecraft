@@ -1,5 +1,5 @@
 const fs = require('fs');
-const NodeCraft = require('../../index.js');
+const NodeCraft = require('../index.js');
 
 const game = new NodeCraft();
 

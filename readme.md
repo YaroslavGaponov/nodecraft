@@ -4,7 +4,7 @@ Node.JS Minecraft server
 
 # Start demo server
 ```sh
-npm run banner
+npm run demo
 ```
 
 ![nodecraft](https://raw.githubusercontent.com/YaroslavGaponov/nodecraft/master/images/nodecraft.jpg "nodecraft")
