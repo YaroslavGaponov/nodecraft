@@ -24,17 +24,26 @@ class Land {
     }
 
     setType(x, y, z, type) {
-        this.getChunk(x >> 4, z >> 4).setType(x & 0x0f, y, z & 0x0f, type);
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        this.getChunk(chunkX, chunkZ).setType(x & 0x0f, y, z & 0x0f, type);
+        this._events.emit('land:changed', chunkX, chunkZ);
         return this;
     }
 
     setLightBlock(x, y, z, light) {
-        this.getChunk(x >> 4, z >> 4).setLightBlock(x & 0x0f, y, z & 0x0f, light);
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        this.getChunk(chunkX, chunkZ).setLightBlock(x & 0x0f, y, z & 0x0f, light);
+        this._events.emit('land:changed', chunkX, chunkZ);
         return this;
     }
 
     setLightSky(x, y, z, light) {
-        this.getChunk(x >> 4, z >> 4).setLightSky(x & 0x0f, y, z & 0x0f, light);
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        this.getChunk(chunkX, chunkZ).setLightSky(x & 0x0f, y, z & 0x0f, light);
+        this._events.emit('land:changed', chunkX, chunkZ);
         return this;
     }
 }
