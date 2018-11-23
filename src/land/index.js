@@ -13,7 +13,7 @@ class Land {
             const chunk = new Chunk();
             for (let x = 0; x < 16; x++)
                 for (let z = 0; z < 16; z++) {
-                    chunk.setType(x, 0, z, Block.grass);
+                    chunk.setType(x, 0, z, Block.dirt);
                     for (let y = 1; y < 255; y++) {
                         chunk.setLightSky(x, y, z, 15); 
                     }
