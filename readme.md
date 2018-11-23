@@ -14,7 +14,7 @@ npm run demo
 
 ```js
 const fs = require('fs');
-const NodeCraft = require('nodecraft');
+const NodeCraft = require('../index.js');
 
 const game = new NodeCraft();
 
@@ -25,8 +25,8 @@ const pz = banner[0].length >>> 1;
 for (let x = 0; x < banner.length; x++) {
     for (let z = 0; z < banner[x].length; z++) {
         if (banner[x][z] === '#') {
-            game.getLand().setType(x - px, 1, z - pz, 3);
-            game.getLand().setType(x - px, 2, z - pz, 3);
+            game.getLand().setType(x - px, 1, z - pz, 'brick_block');
+            game.getLand().setType(x - px, 2, z - pz, 'brick_block');
             game.getLand().setLightBlock(x - px, 1, z - pz, 15);
             game.getLand().setLightBlock(x - px, 2, z - pz, 15);
         }
@@ -35,7 +35,7 @@ for (let x = 0; x < banner.length; x++) {
 
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
-        with (game.getServer()) {
+        with(game.getServer()) {
             login(clientID, {
                 eid: 0,
                 level_type: 'flat',
@@ -62,7 +62,7 @@ game.on('packet:handshake', (clientID, packet) => {
         }
     })
     .on('packet:keepalive', clientID => {
-        with (game.getServer()) {
+        with(game.getServer()) {
             explosion(clientID, {
                 x: 0,
                 y: 20,
