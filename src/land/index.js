@@ -1,5 +1,5 @@
-const events = require('events');
 const Chunk = require('./chunk');
+const Block = require('./block');
 
 class Land {
     constructor(events) {
@@ -13,9 +13,9 @@ class Land {
             const chunk = new Chunk();
             for (let x = 0; x < 16; x++)
                 for (let z = 0; z < 16; z++) {
-                    chunk.setType(x, 0, z, 3);
+                    chunk.setType(x, 0, z, Block.grass);
                     for (let y = 1; y < 255; y++) {
-                        chunk.setLightSky(x, y, z, 15);
+                        chunk.setLightSky(x, y, z, 15); 
                     }
                 }
             this._map.set(chunkID, chunk);
@@ -24,6 +24,7 @@ class Land {
     }
 
     setType(x, y, z, type) {
+        type = isNaN(type) ? Block[type] : +type;
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setType(x & 0x0f, y, z & 0x0f, type);
