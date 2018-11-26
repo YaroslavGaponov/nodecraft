@@ -28,5 +28,9 @@ module.exports = Object.freeze({
     yellow_flower: 37,
     red_mushroom: 40,
     brick_block: 45,
-    sign: 63
+    sign: 63,
+    unlit_redstone_torch: 75,
+    redstone_torch: 76,
+    stone_button: 77,
+    unpowered_repeater: 93
 });

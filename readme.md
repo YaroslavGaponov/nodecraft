@@ -44,7 +44,15 @@ for (let x = 0; x < banner.length; x++) {
     }
 }
 
-game.getLand().setType(5, 1, 3, 'sign');
+
+let flag = false;
+game.getLand().setType(5, 1, 4, 'unlit_redstone_torch');
+game.on('packet:player_block_placement', (clientID, packet) => {
+    if (packet.x === 5 && packet.y === 1 && packet.z === 4) {
+        flag = !flag;
+        game.getLand().setType(5, 1, 4, flag ? 'redstone_torch' : 'unlit_redstone_torch');
+    }
+});
 
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
@@ -72,7 +80,9 @@ game.on('packet:handshake', (clientID, packet) => {
                 pitch: 0,
                 on_ground: 1
             });
-            setInterval(() => 
+
+            game.getLand().setType(5, 1, 3, 'sign');
+            setInterval(() =>
                 update_sign(clientID, {
                     x: 5,
                     y: 1,
@@ -82,6 +92,7 @@ game.on('packet:handshake', (clientID, packet) => {
                     text3: 'How are you',
                     text4: new Date().toLocaleTimeString()
                 }), 1000);
+
         }
     })
     .on('packet:keepalive', clientID => {
