@@ -1,30 +1,40 @@
 const Chunk = require('./chunk');
 const Block = require('./block');
 
+const DEFAULT_INITIALIZER = chunk => {
+    for (let x = 0; x < 16; x++)
+        for (let z = 0; z < 16; z++) {
+            chunk.setBiome(x, z, 1);
+            chunk.setType(x, 0, z, Block.grass);
+            for (let y = 0; y < 255; y++) {
+                chunk.setLightSky(x, y, z, 15);
+            }
+        }
+};
+
 class Land {
     constructor(events) {
         this._events = events;
         this._map = new Map();
+        this._initializer = DEFAULT_INITIALIZER;
+    }
+
+    forEachChunk(fn) {
+        this._initializer = fn;
+        return this;
     }
 
     getChunk(chunkX, chunkZ) {
         const chunkID = `${chunkX}:${chunkZ}`;
         if (!this._map.has(chunkID)) {
             const chunk = new Chunk();
-            for (let x = 0; x < 16; x++)
-                for (let z = 0; z < 16; z++) {
-                    chunk.setType(x, 0, z, Block.dirt);
-                    for (let y = 1; y < 255; y++) {
-                        chunk.setLightSky(x, y, z, 15); 
-                    }
-                }
+            this._initializer(chunk);
             this._map.set(chunkID, chunk);
         }
         return this._map.get(chunkID);
     }
 
-    setType(x, y, z, type) {
-        type = isNaN(type) ? Block[type] : +type;
+    setType(x, y, z, type) {        
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setType(x & 0x0f, y, z & 0x0f, type);
@@ -47,6 +57,15 @@ class Land {
         this._events.emit('land:changed', chunkX, chunkZ);
         return this;
     }
+
+    setBiome(x, z, biome) {
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        this.getChunk(chunkX, chunkZ).setBiome(x & 0x0f, z & 0x0f, biome);
+        this._events.emit('land:changed', chunkX, chunkZ);
+        return this;
+    }
+
 }
 
 module.exports = Land;

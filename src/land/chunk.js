@@ -1,37 +1,76 @@
+const Block = require('./block');
+const Biome = require('./biome');
+
 class Chunk {
     constructor() {
-        this._block = Buffer.alloc(196864, 0);
+        this._block = Buffer.alloc(16 * 256 * 16, 0);
+        this._meta = Buffer.alloc(16 * 128 * 16, 0);
+        this._lightBlock = Buffer.alloc(16 * 128 * 16, 0);
+        this._lightSky = Buffer.alloc(16 * 128 * 16, 0);
+        this._addition = Buffer.alloc(16 * 128 * 16, 0);
+        this._bioms = Buffer.alloc(16 * 16, 0);
     }
 
-    setType(x, y, z, type) {
-        this._block[x + (z << 4) + (y << 8)] = type;
+    setType(x, y, z, value) {
+        value = isNaN(value) ? Block[value] : +value;
+        this._block.writeUInt8(value, x | (z << 4) | (y << 8));
     }
 
-    setLightSky(x, y, z, light) {
-        const index = 131072 + Math.floor((x + (z << 4) + (y << 8)) / 2);
+    setMeta(x, y, z, value) {
+        const index = (x | (z << 4) | (y << 8)) >>> 1;
+
         if (x % 2) {
-            this._block[index] &= 0xf0;
-            this._block[index] |= (light & 0x0f);
+            this._meta[index] &= 0xf0;
+            this._meta[index] |= (value & 0x0f);
         } else {
-            this._block[index] &= 0x0f;
-            this._block[index] |= (light << 4) & 0xf0;
+            this._meta[index] &= 0x0f;
+            this._meta[index] |= (value << 4) & 0xf0;
         }
     }
 
-    setLightBlock(x, y, z, light) {
-        const index = 98304 + Math.floor((x + (z << 4) + (y << 8)) / 2);
+    setLightBlock(x, y, z, value) {
+        const index = (x | (z << 4) | (y << 8)) >>> 1;
 
         if (x % 2) {
-            this._block[index] &= 0xf0;
-            this._block[index] |= (light & 0x0f);
+            this._lightBlock[index] &= 0xf0;
+            this._lightBlock[index] |= value & 0x0f;
         } else {
-            this._block[index] &= 0x0f;
-            this._block[index] |= (light << 4) & 0xf0;
+            this._lightBlock[index] &= 0x0f;
+            this._lightBlock[index] |= (value << 4) & 0xf0;
         }
+    }
+
+    setLightSky(x, y, z, value) {
+        const index = (x | (z << 4) | (y << 8)) >>> 1;
+        if (x % 2) {
+            this._lightSky[index] &= 0xf0;
+            this._lightSky[index] |= value & 0x0f;
+        } else {
+            this._lightSky[index] &= 0x0f;
+            this._lightSky[index] |= (value << 4) & 0xf0;
+        }
+    }
+
+    setAddition(x, y, z, value) {
+        const index = (x | (z << 4) | (y << 8)) >>> 1;
+
+        if (x % 2) {
+            this._addition[index] &= 0xf0;
+            this._addition[index] |= (value & 0x0f);
+        } else {
+            this._addition[index] &= 0x0f;
+            this._addition[index] |= (value << 4) & 0xf0;
+        }
+    }
+
+
+    setBiome(x, z, value) {
+        value = isNaN(value) ? Biome[value] : +value;
+        this._bioms.writeUInt8(value, x | (z << 4));
     }
 
     raw() {
-        return this._block;
+        return Buffer.concat([this._block, this._meta, this._lightBlock, this._lightSky, this._addition, this._bioms]);
     }
 
 }

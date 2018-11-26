@@ -3,6 +3,17 @@ const NodeCraft = require('../index.js');
 
 const game = new NodeCraft();
 
+game.getLand().forEachChunk(chunk => {
+    for (let x = 0; x < 16; x++)
+        for (let z = 0; z < 16; z++) {
+            chunk.setBiome(x, z, 'desert');
+            chunk.setType(x, 0, z, 'grass');
+            for (let y = 0; y < 255; y++) {
+                chunk.setLightSky(x, y, z, 15);
+            }
+        }
+});
+
 //  init banner
 const banner = fs.readFileSync(__dirname + '/banner.txt').toString().split('\n').filter(Boolean);
 const px = banner.length >>> 1;
