@@ -32,13 +32,6 @@ for (let x = 0; x < banner.length; x++) {
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
         with(game.getServer()) {
-            spawn_painting(clientID, {
-                title: `Hi, ${packet.username}`,
-                x: 0,
-                y: 3,
-                z: 0,
-                direction: 0
-            });
             login(clientID, {
                 eid: 0,
                 level_type: 'flat',

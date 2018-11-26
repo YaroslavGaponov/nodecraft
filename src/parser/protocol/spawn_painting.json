@@ -1,0 +1,13 @@
+{
+    "pid": 25,
+    "name": "spawn_painting",
+    "direction": "server_to_client",
+    "format": {
+        "entity_id": "Int",
+        "title": "Str",
+        "x": "Int",
+        "y": "Int",
+        "z": "Int",
+        "direction": "Int"
+    }
+}
