@@ -57,7 +57,7 @@ game.on('packet:handshake', (clientID, packet) => {
                 pitch: 0,
                 on_ground: 1
             });
-            setTimeout(() => {
+            setInterval(() => 
                 update_sign(clientID, {
                     x: 5,
                     y: 1,
@@ -65,10 +65,8 @@ game.on('packet:handshake', (clientID, packet) => {
                     text1: 'Hello',
                     text2: packet.username,
                     text3: 'How are you',
-                    text4: '!!!'
-                });
-
-            }, 5000);
+                    text4: new Date().toLocaleTimeString()
+                }), 1000);
         }
     })
     .on('packet:keepalive', clientID => {
