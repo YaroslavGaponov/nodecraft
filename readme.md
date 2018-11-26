@@ -7,7 +7,7 @@ Node.JS Minecraft server
 npm run demo
 ```
 
-![nodecraft](https://raw.githubusercontent.com/YaroslavGaponov/nodecraft/master/images/nodecraft.jpg "nodecraft")
+![nodecraft](https://raw.githubusercontent.com/YaroslavGaponov/nodecraft/master/images/nodecraft.gif "nodecraft")
 
 
 # Simple server without magic
