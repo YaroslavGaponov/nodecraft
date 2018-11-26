@@ -1,0 +1,14 @@
+{
+    "pid": 130,
+    "name": "update_sign",
+    "direction": "both",
+    "format": {
+        "x": "Int",
+        "y": "Short",
+        "z": "Int",
+        "text1": "Str",
+        "text2": "Str",
+        "text3": "Str",
+        "text4": "Str"
+    }
+}

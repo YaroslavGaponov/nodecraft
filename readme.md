@@ -44,6 +44,8 @@ for (let x = 0; x < banner.length; x++) {
     }
 }
 
+game.getLand().setType(5, 1, 3, 'sign');
+
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
         with(game.getServer()) {
@@ -70,6 +72,18 @@ game.on('packet:handshake', (clientID, packet) => {
                 pitch: 0,
                 on_ground: 1
             });
+            setTimeout(() => {
+                update_sign(clientID, {
+                    x: 5,
+                    y: 1,
+                    z: 3,
+                    text1: 'Hello',
+                    text2: packet.username,
+                    text3: 'How are you',
+                    text4: '!!!'
+                });
+
+            }, 5000);
         }
     })
     .on('packet:keepalive', clientID => {

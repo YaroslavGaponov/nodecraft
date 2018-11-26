@@ -27,5 +27,6 @@ module.exports = Object.freeze({
     noteblock: 25,
     yellow_flower: 37,
     red_mushroom: 40,
-    brick_block: 45
+    brick_block: 45,
+    sign: 63
 });
