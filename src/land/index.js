@@ -1,3 +1,4 @@
+const EventEmmiter = require('events').EventEmitter;
 const Chunk = require('./chunk');
 const Block = require('./block');
 
@@ -12,9 +13,9 @@ const DEFAULT_INITIALIZER = chunk => {
         }
 };
 
-class Land {
-    constructor(events) {
-        this._events = events;
+class Land extends EventEmmiter {
+    constructor() {
+        super();
         this._map = new Map();
         this._initializer = DEFAULT_INITIALIZER;
     }
@@ -38,7 +39,7 @@ class Land {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setType(x & 0x0f, y, z & 0x0f, type);
-        this._events.emit('land:changed', chunkX, chunkZ);
+        this.emit('changed', chunkX, chunkZ);
         return this;
     }
 
@@ -46,7 +47,7 @@ class Land {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setLightBlock(x & 0x0f, y, z & 0x0f, light);
-        this._events.emit('land:changed', chunkX, chunkZ);
+        this.emit('changed', chunkX, chunkZ);
         return this;
     }
 
@@ -54,7 +55,7 @@ class Land {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setLightSky(x & 0x0f, y, z & 0x0f, light);
-        this._events.emit('land:changed', chunkX, chunkZ);
+        this.emit('changed', chunkX, chunkZ);
         return this;
     }
 
@@ -62,7 +63,7 @@ class Land {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setBiome(x & 0x0f, z & 0x0f, biome);
-        this._events.emit('land:changed', chunkX, chunkZ);
+        this.emit('changed', chunkX, chunkZ);
         return this;
     }
 

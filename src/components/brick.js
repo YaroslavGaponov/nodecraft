@@ -5,7 +5,7 @@ class Brick {
         this._block = block;
         this._handler = null;
 
-        this._root.on('packet:player_block_placement', (clientID, packet) => {
+        this._root.getServer().on('packet:player_block_placement', (clientID, packet) => {
             if (packet.x === this._coor.x && packet.y === this._coor.y && packet.z === this._coor.z) {
                 if (this._handler) {
                     this._handler(this);

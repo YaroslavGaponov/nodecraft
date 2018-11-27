@@ -9,8 +9,11 @@ class Game extends EventEmmiter {
     constructor(options = {}) {
         super();
 
-        this._server = new Server(this, Parser);
-        this._land = new Land(this);
+        this._server = new Server(Parser);
+        this._server.on('start', _ => this.emit('plugin:start'));
+        this._server.on('stop', _ => this.emit('plugin:stop'));
+
+        this._land = new Land();
 
         this
             .use(Plugin.keepalive)

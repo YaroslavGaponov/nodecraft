@@ -58,7 +58,7 @@ const message = new Components.message(game, {
 });
 message.show();
 
-game.on('packet:handshake', (clientID, packet) => {
+server.on('packet:handshake', (clientID, packet) => {
         server
             .login(clientID, {
                 eid: 0,
