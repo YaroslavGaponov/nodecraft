@@ -61,8 +61,9 @@ const toggle = new Components.toggle(game, {
     z: 5
 });
 toggle
-    .set(false)
-    .onChanged(flag => console.log(`Flag is ${flag}`));
+    .onChanged(flag => console.log(`Flag is ${flag}`))
+    .enabled()
+    .show();
 
 
 // create message

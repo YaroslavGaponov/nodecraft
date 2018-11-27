@@ -1,22 +1,26 @@
 const Brick = require('../brick');
 
 class Message extends Brick {
-    constructor(root, coor, block = 'sign') {
-        super(root, coor, block);
+    constructor(root, coor, type = 'sign') {
+        super(root, coor, type);
     }
 
-    update(clientID, text) {
-        text = text.split('\n').map(s => s.trim(s));
-        this._root.getServer()
-            .update_sign(clientID, {
-                x: this.getCoor().x,
-                y: this.getCoor().y,
-                z: this.getCoor().z,
-                text1: text[0] || '',
-                text2: text[1] || '',
-                text3: text[2] || '',
-                text4: text[3] || ''
-            });
+    update(clientID, text = '') {
+        const coor = this.getCoor();
+        const type = this._root.getLand().getType(coor.x, coor.y, coor.z);
+        if (type === this.getType()) {
+            text = text.split('\n').map(s => s.trim(s));
+            this._root.getServer()
+                .update_sign(clientID, {
+                    x: coor.x,
+                    y: coor.y,
+                    z: coor.z,
+                    text1: text[0] || '',
+                    text2: text[1] || '',
+                    text3: text[2] || '',
+                    text4: text[3] || ''
+                });
+        }
         return this;
     }
 }

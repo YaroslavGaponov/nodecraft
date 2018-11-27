@@ -35,12 +35,18 @@ class Land extends EventEmmiter {
         return this._map.get(chunkID);
     }
 
-    setType(x, y, z, type) {        
+    setType(x, y, z, type) {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setType(x & 0x0f, y, z & 0x0f, type);
         this.emit('changed', chunkX, chunkZ);
         return this;
+    }
+
+    getType(x, y, z) {
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        return this.getChunk(chunkX, chunkZ).getType(x & 0x0f, y, z & 0x0f);
     }
 
     setLightBlock(x, y, z, light) {
@@ -51,6 +57,12 @@ class Land extends EventEmmiter {
         return this;
     }
 
+    getLightBlock(x, y, z) {
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        return this.getChunk(chunkX, chunkZ).getLightBlock(x & 0x0f, y, z & 0x0f);
+    }
+
     setLightSky(x, y, z, light) {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
@@ -59,12 +71,24 @@ class Land extends EventEmmiter {
         return this;
     }
 
+    getLightSky(x, y, z) {
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        return this.getChunk(chunkX, chunkZ).getLightSky(x & 0x0f, y, z & 0x0f);
+    }
+
     setBiome(x, z, biome) {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
         this.getChunk(chunkX, chunkZ).setBiome(x & 0x0f, z & 0x0f, biome);
         this.emit('changed', chunkX, chunkZ);
         return this;
+    }
+
+    getBiome(x, z) {
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        return this.getChunk(chunkX, chunkZ).getBiome(x & 0x0f, z & 0x0f);
     }
 
 }

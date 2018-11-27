@@ -1,39 +1,30 @@
 const Brick = require('../brick');
 
-class Toggle {
-    constructor(root, coor, blocks = ['unlit_redstone_torch', 'redstone_torch']) {
+class Toggle extends Brick {
+    constructor(root, coor, types = ['unlit_redstone_torch', 'redstone_torch']) {
+        super(root, coor, types[0]);
         this._flag = false;
+        this._types = types;
 
-        this._disabled = new Brick(root, coor, blocks[0]);
-        this._enabled = new Brick(root, coor, blocks[1]);
-
-        this._handler = null;
-
-        this._disabled.onChanged(_ => {
-            this.set(!this._flag);
-            if (this._handler) {
-                this._handler(this._flag);
-            }
-        });
+        super.onChanged(_ => this.set(!this._flag));
 
         this.set(this._flag);
     }
 
     onChanged(handler) {
-        this._handler = handler;
+        this.handler = handler;
         return this;
     }
 
+    set(flag) {
+        this._flag = !!flag;
+        this.setType(this._flag ? this._types[1] : this._types[0]);
+        this.show();
 
-    set(bool) {
-        this._flag = !!bool;
-        if (this._flag) {
-            this._disabled.hide();
-            this._enabled.show();
-        } else {            
-            this._enabled.hide();
-            this._disabled.show();
+        if (this.handler) {
+            this.handler(this._flag);
         }
+
         return this;
     }
 
@@ -41,6 +32,13 @@ class Toggle {
         return this._flag;
     }
 
+    enabled() {
+        return this.set(true);
+    }
+
+    disabled() {
+        return this.set(false);
+    }
 }
 
 module.exports = Toggle;

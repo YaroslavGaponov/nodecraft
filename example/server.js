@@ -25,7 +25,7 @@ const banner = fs.readFileSync(__dirname + '/banner.txt')
     .toString()
     .split('\n')
     .filter(Boolean);
-    
+
 const px = banner.length >>> 1;
 const pz = banner[0].length >>> 1;
 for (let x = 0; x < banner.length; x++) {
@@ -46,8 +46,9 @@ const toggle = new Components.toggle(game, {
     z: 5
 });
 toggle
-    .set(false)
-    .onChanged(flag => console.log(`Flag is ${flag}`));
+    .onChanged(flag => console.log(`Flag is ${flag}`))
+    .enabled()
+    .show();
 
 
 // create message

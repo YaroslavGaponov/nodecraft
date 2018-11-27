@@ -1,6 +1,11 @@
 const Block = require('./block');
 const Biome = require('./biome');
 
+const BlockTypeName = [];
+for(let name in Block) {
+    BlockTypeName[Block[name]] = name;
+}
+
 class Chunk {
     constructor() {
         this._block = Buffer.alloc(16 * 256 * 16, 0);
@@ -14,6 +19,11 @@ class Chunk {
     setType(x, y, z, value) {
         value = isNaN(value) ? Block[value] : +value;
         this._block.writeUInt8(value, x | (z << 4) | (y << 8));
+    }
+
+    getType(x, y, z) {
+        const value = this._block.readUInt8(x | (z << 4) | (y << 8));
+        return BlockTypeName[value] || value;
     }
 
     setMeta(x, y, z, value) {
@@ -40,6 +50,16 @@ class Chunk {
         }
     }
 
+    getLightBlock(x, y, z) {
+        const index = (x | (z << 4) | (y << 8)) >>> 1;
+
+        if (x % 2) {
+            return this._lightBlock[index] & 0x0f;
+        } else {
+            return (this._lightBlock[index] >> 4) & 0xf0;
+        }
+    }
+
     setLightSky(x, y, z, value) {
         const index = (x | (z << 4) | (y << 8)) >>> 1;
         if (x % 2) {
@@ -50,6 +70,17 @@ class Chunk {
             this._lightSky[index] |= (value << 4) & 0xf0;
         }
     }
+
+    getLightSky(x, y, z) {
+        const index = (x | (z << 4) | (y << 8)) >>> 1;
+
+        if (x % 2) {
+            return this._lightSky[index] & 0x0f;
+        } else {
+            return (this._lightSkyp[index] >> 4) & 0xf0;
+        }
+    }
+
 
     setAddition(x, y, z, value) {
         const index = (x | (z << 4) | (y << 8)) >>> 1;
@@ -67,6 +98,10 @@ class Chunk {
     setBiome(x, z, value) {
         value = isNaN(value) ? Biome[value] : +value;
         this._bioms.writeUInt8(value, x | (z << 4));
+    }
+
+    getBiome(x, z) {
+        return this._bioms.readUInt8(x | (z << 4));
     }
 
     raw() {
