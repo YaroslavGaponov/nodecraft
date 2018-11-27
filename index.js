@@ -1,1 +1,4 @@
-module.exports = require('./src/game');
+module.exports = {
+    Game: require('./src/game'),
+    Components: require('./src/components')
+};

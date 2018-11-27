@@ -14,9 +14,9 @@ npm run demo
 
 ```js
 const fs = require('fs');
-const NodeCraft = require('../index.js');
+const {Game, Components} = require('../index.js');
 
-const game = new NodeCraft();
+const game = new Game();
 
 game.getLand().forEachChunk(chunk => {
     for (let x = 0; x < 16; x++)
@@ -45,17 +45,18 @@ for (let x = 0; x < banner.length; x++) {
 }
 
 
-let flag = false;
-game.getLand().setType(5, 1, 4, 'unlit_redstone_torch');
-game.on('packet:player_block_placement', (clientID, packet) => {
-    if (packet.x === 5 && packet.y === 1 && packet.z === 4) {
-        flag = !flag;
-        game.getLand().setType(5, 1, 4, flag ? 'redstone_torch' : 'unlit_redstone_torch');
-    }
-});
+const toggle = new Components.toggle(game, {x: 5,y: 1,z: 5});
+toggle
+    .set(false)
+    .onChanged(flag => console.log(`Flag is ${flag}`));
+
+
+const message = new Components.message(game, {x: 5,y: 1,z: 1});
+message.show();
 
 game.on('packet:handshake', (clientID, packet) => {
         console.log(`Hi, ${packet.username}`);
+
         with(game.getServer()) {
             login(clientID, {
                 eid: 0,
@@ -80,20 +81,15 @@ game.on('packet:handshake', (clientID, packet) => {
                 pitch: 0,
                 on_ground: 1
             });
-
-            game.getLand().setType(5, 1, 3, 'sign');
-            setInterval(() =>
-                update_sign(clientID, {
-                    x: 5,
-                    y: 1,
-                    z: 3,
-                    text1: 'Hello',
-                    text2: packet.username,
-                    text3: 'How are you',
-                    text4: new Date().toLocaleTimeString()
-                }), 1000);
-
         }
+
+        setInterval(_ => 
+            message.update(clientID,
+                `Hello
+                ${packet.username}
+                Time:
+                ${new Date().toLocaleTimeString()}`
+            ), 1000);
     })
     .on('packet:keepalive', clientID => {
         with(game.getServer()) {
