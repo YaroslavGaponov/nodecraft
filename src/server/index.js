@@ -6,8 +6,6 @@ class Server extends EventEmmiter {
     constructor(parser) {
         super();
 
-        this._packer = new parser.Pack();
-
         for (let name in parser.PIDS) {
             const p = parser.PIDS[name];
             if (p.direction === 'server_to_client' || p.direction === 'both') {
