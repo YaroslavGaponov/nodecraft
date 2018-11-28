@@ -1,4 +1,5 @@
 const assert = require('assert');
+const Transform = require('stream').Transform;
 const zlib = require('zlib');
 const protocol = require('./protocol');
 const Types = require('./types');
@@ -96,4 +97,19 @@ function _write(type, value) {
     return buffer;
 }
 
-module.exports = pack;
+
+class Pack extends Transform {
+    constructor() {
+        super({
+            objectMode: true
+        });
+    }
+
+    _transform(chunk, encoding, callback) {
+        this.push(pack(chunk));
+        return callback();
+    }
+
+}
+
+module.exports = Pack;

@@ -1,4 +1,5 @@
 const assert = require('assert');
+const Transform = require('stream').Transform;
 const protocol = require('./protocol');
 const Types = require('./types');
 
@@ -74,4 +75,25 @@ function _read(type, data) {
     return value;
 }
 
-module.exports = unpack;
+class Unpack extends Transform {
+    constructor() {
+        super({
+            objectMode: true
+        });
+        this._chunks = [];
+    }
+
+    _transform(chunk, encoding, callback) {
+        try {
+            this._chunks.push(chunk);
+            const packet = unpack(Buffer.concat(this._chunks));
+            this.push(packet);
+            this._chunks = [];
+        } catch (ex) {
+        }
+        return callback();
+    }
+
+}
+
+module.exports = Unpack;

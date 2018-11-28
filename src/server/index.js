@@ -1,14 +1,15 @@
 const net = require('net');
+const stream = require('stream');
 const EventEmmiter = require('events').EventEmitter;
 
 class Server extends EventEmmiter {
     constructor(parser) {
         super();
 
-        this._parser = parser;
+        this._packer = new parser.Pack();
 
-        for (let name in this._parser.PIDS) {
-            const p = this._parser.PIDS[name];
+        for (let name in parser.PIDS) {
+            const p = parser.PIDS[name];
             if (p.direction === 'server_to_client' || p.direction === 'both') {
                 this[name] = (clientID, packet) => {
                     packet.pid = p.pid;
@@ -23,29 +24,29 @@ class Server extends EventEmmiter {
 
         this._server = net.createServer(client => {
 
-            let chunks = [];
-
             const clientID = Math.random().toString(36).slice(2);
 
-            this._clients.set(clientID, client);
+            const packer = new parser.Pack();
+            packer.pipe(client);
+            this._clients.set(clientID, packer);
+
             this.emit('client:join', clientID);
 
-            client
-                .on('data', chunk => {
-                    chunks.push(chunk);
-                    try {
-                        let packet = this._parser.unpack(Buffer.concat(chunks));
-                        chunks = [];
-                        this.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
-                    } catch (ex) {
-                        this.emit('error', ex);
-                    }
-                })
-                .on('end', _ => {
-                    this.emit('client:leave', clientID);
-                    this._clients.delete(clientID);
-                })
-                .on('error', err => this.emit('error', err));
+            const self = this;
+            const crier = new stream.Writable({
+                objectMode: true,
+                write(packet, encoding, callback) {
+                    self.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
+                    return callback();
+                },
+                final(callback) {
+                    self.emit('client:leave', clientID);
+                    self._clients.delete(clientID);
+                    return callback();
+                }
+            });
+
+            client.pipe(new parser.Unpack()).pipe(crier);
         });
     }
 
@@ -63,7 +64,7 @@ class Server extends EventEmmiter {
 
     send(clientID, packet) {
         if (this._clients.has(clientID)) {
-            this._clients.get(clientID).write(this._parser.pack(packet));
+            this._clients.get(clientID).write(packet);
         }
         return this;
     }

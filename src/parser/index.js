@@ -2,8 +2,8 @@ module.exports = {
     PROTOCOL: '61',
     VERSION: '1.5.2',
 
-    pack: require('./pack'),
-    unpack: require('./unpack'),
+    Pack: require('./pack'),
+    Unpack: require('./unpack'),
     
     PIDS: require('./protocol').PIDS
 };
