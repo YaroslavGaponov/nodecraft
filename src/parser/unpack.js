@@ -1,5 +1,6 @@
 const assert = require('assert');
-const Transform = require('stream').Transform;
+const Duplex = require('stream').Duplex;
+const Queue = require('../utils/queue');
 const protocol = require('./protocol');
 const Types = require('./types');
 
@@ -19,6 +20,7 @@ function unpack(buffer) {
 
     assert(info, `Packet 0x${packet.pid.toString(16)} is unknown`);
     packet.name = info.name;
+    packet.priority = info.priority;
 
     for (let name in info.format) {
         assert(info.format[name] in Types, `Incorrect type ${info.format[name]}`);
@@ -75,24 +77,30 @@ function _read(type, data) {
     return value;
 }
 
-class Unpack extends Transform {
+class Unpack extends Duplex {
     constructor() {
         super({
             objectMode: true
         });
         this._chunks = [];
+        this._queue = new Queue();
     }
-
-    _transform(chunk, encoding, callback) {
+    _read(size) {
+        while (!this._queue.isEmpty() && size > 0) {
+            this.push(this._queue.dequeue());
+            size--;
+        }
+    }
+    _write(chunk, encoding, callback) {
         try {
             this._chunks.push(chunk);
             const packet = unpack(Buffer.concat(this._chunks));
-            this.push(packet);
             this._chunks = [];
+            this._queue.enqueue(packet.priority, packet);
+            process.nextTick(_ => this._read(16));
         } catch (ex) {}
         return callback();
     }
-
 }
 
 module.exports = Unpack;

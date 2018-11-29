@@ -31,7 +31,7 @@ class Server extends EventEmmiter {
 
             const crier = new stream.Writable({
                 objectMode: true,
-                write: (packet, encoding, callback) => {
+                write: (packet, encoding, callback) => {                    
                     this.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
                     return callback();
                 },

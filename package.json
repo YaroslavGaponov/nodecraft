@@ -1,6 +1,6 @@
 {
   "name": "nodecraft",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Node.JS Minecraft server",
   "main": "index.js",
   "directories": {

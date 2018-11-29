@@ -101,7 +101,6 @@ function _write(type, value) {
     });
 }
 
-
 class Pack extends Transform {
     constructor() {
         super({
