@@ -6,6 +6,8 @@ class Server extends EventEmmiter {
     constructor(parser) {
         super();
 
+        this._clients = new Map();
+
         for (let name in parser.PIDS) {
             const p = parser.PIDS[name];
             if (p.direction === 'server_to_client' || p.direction === 'both') {
@@ -18,10 +20,7 @@ class Server extends EventEmmiter {
             }
         }
 
-        this._clients = new Map();
-
         this._server = net.createServer(client => {
-
             const clientID = Math.random().toString(36).slice(2);
 
             const packer = new parser.Pack();
@@ -30,21 +29,22 @@ class Server extends EventEmmiter {
 
             this.emit('client:join', clientID);
 
-            const self = this;
             const crier = new stream.Writable({
                 objectMode: true,
-                write(packet, encoding, callback) {
-                    self.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
+                write: (packet, encoding, callback) => {
+                    this.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
                     return callback();
                 },
-                final(callback) {
-                    self.emit('client:leave', clientID);
-                    self._clients.delete(clientID);
+                final: callback => {
+                    this.emit('client:leave', clientID);
                     return callback();
                 }
             });
 
-            client.pipe(new parser.Unpack()).pipe(crier);
+            client
+                .pipe(new parser.Unpack())
+                .pipe(crier)
+                .on('end', _ => this._clients.delete(clientID));
         });
     }
 
