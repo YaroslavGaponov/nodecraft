@@ -89,8 +89,7 @@ class Unpack extends Transform {
             const packet = unpack(Buffer.concat(this._chunks));
             this.push(packet);
             this._chunks = [];
-        } catch (ex) {
-        }
+        } catch (ex) {}
         return callback();
     }
 
