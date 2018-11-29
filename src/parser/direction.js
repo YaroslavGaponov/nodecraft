@@ -1,5 +1,0 @@
-module.exports = Object.freeze({
-    client_to_server: 'client_to_server',
-    server_to_client: 'server_to_client',
-    both: 'both'
-});

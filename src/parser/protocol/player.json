@@ -2,6 +2,7 @@
     "pid": 10,
     "name": "player",
     "direction": "client_to_server",
+    "priority": "low",
     "format": {
         "on_ground": "Byte"
     }

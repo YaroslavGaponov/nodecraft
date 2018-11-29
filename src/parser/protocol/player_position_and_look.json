@@ -2,6 +2,7 @@
     "pid": 13,
     "name": "player_position_and_look",
     "direction": "both",
+    "priority": "normal",
     "format": {
         "x": "Double",
         "stance": "Double",

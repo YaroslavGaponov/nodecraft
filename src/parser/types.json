@@ -1,0 +1,13 @@
+{
+    "Bool": "Bool",
+    "Byte": "Byte",
+    "Short": "Short",
+    "Int": "Int",
+    "SInt": "SInt",
+    "Long": "Long",
+    "Double": "Double",
+    "Float": "Float",
+    "Str": "Str",
+    "Record": "Record",
+    "Chunk": "Chunk"
+}

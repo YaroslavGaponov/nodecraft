@@ -2,6 +2,7 @@
     "pid": 14,
     "name": "player_digging",
     "direction": "client_to_server",
+    "priority": "normal",
     "format": {
         "status": "Byte",
         "x": "Int",

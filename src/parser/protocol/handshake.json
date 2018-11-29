@@ -2,6 +2,7 @@
     "pid": 2,
     "name": "handshake",
     "direction": "client_to_server",
+    "priority": "normal",
     "format": {
         "protocol_version": "Byte",
         "username": "Str",

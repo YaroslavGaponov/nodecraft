@@ -2,6 +2,7 @@
     "pid": 101,
     "name": "close_window",
     "direction": "both",
+    "priority": "low",
     "format": {
         "window_id": "Byte"
     }

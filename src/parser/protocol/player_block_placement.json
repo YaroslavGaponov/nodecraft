@@ -2,6 +2,7 @@
     "pid": 15,
     "name": "player_block_placement",
     "direction": "client_to_server",
+    "priority": "normal",
     "format": {
         "x": "Int",
         "y": "Byte",

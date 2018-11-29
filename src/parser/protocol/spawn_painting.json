@@ -2,6 +2,7 @@
     "pid": 25,
     "name": "spawn_painting",
     "direction": "server_to_client",
+    "priority": "normal",
     "format": {
         "entity_id": "Int",
         "title": "Str",

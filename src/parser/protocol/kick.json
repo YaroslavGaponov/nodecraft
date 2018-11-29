@@ -2,6 +2,7 @@
     "pid": 255,
     "name": "kick",
     "direction": "both",
+    "priority": "high",
     "format": {
         "reason": "Str"
     }

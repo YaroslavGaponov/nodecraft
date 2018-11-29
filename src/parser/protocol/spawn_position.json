@@ -2,6 +2,7 @@
     "pid": 6,
     "name": "spawn_position",
     "direction": "server_to_client",
+    "priority": "normal",
     "format": {
         "x": "Int",
         "y": "Int",

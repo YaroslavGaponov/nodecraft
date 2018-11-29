@@ -2,6 +2,7 @@
     "pid": 51,
     "name": "map_chunk",
     "direction": "server_to_client",
+    "priority": "normal",
     "format": {
         "x": "SInt",
         "z": "SInt",

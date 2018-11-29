@@ -2,6 +2,7 @@
     "pid": 254,
     "name": "ping",
     "direction": "client_to_server",
+    "priority": "high",
     "format": {
         "magic": "Byte"
     }    

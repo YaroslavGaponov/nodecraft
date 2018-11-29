@@ -2,6 +2,7 @@
     "pid": 130,
     "name": "update_sign",
     "direction": "both",
+    "priority": "low",
     "format": {
         "x": "Int",
         "y": "Short",
