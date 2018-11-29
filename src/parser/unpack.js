@@ -96,8 +96,8 @@ class Unpack extends Duplex {
             this._chunks.push(chunk);
             const packet = unpack(Buffer.concat(this._chunks));
             this._chunks = [];
-            this._queue.enqueue(packet.priority, packet);
-            process.nextTick(_ => this._read(16));
+            this._queue.enqueue(packet.priority || 'normal', packet);
+            process.nextTick(_ => this._read(5));
         } catch (ex) {}
         return callback();
     }

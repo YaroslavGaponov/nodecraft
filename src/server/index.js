@@ -13,6 +13,7 @@ class Server extends EventEmmiter {
             if (p.direction === 'server_to_client' || p.direction === 'both') {
                 this[name] = (clientID, packet) => {
                     packet.pid = p.pid;
+                    packet.priority = p.priority;
                     this.send(clientID, packet);
                     this.emit('packet:' + p.name, clientID, packet, 'server_to_client');
                     return this;

@@ -1,5 +1,6 @@
 const assert = require('assert');
-const Transform = require('stream').Transform;
+const Duplex = require('stream').Duplex;
+const Queue = require('../utils/queue');
 const zlib = require('zlib');
 const protocol = require('./protocol');
 const Types = require('./types');
@@ -101,17 +102,30 @@ function _write(type, value) {
     });
 }
 
-class Pack extends Transform {
+class Pack extends Duplex {
     constructor() {
         super({
             objectMode: true
         });
+        this._queue = new Queue();
     }
-
-    _transform(packet, encoding, callback) {
-        pack(packet).then(chunk => callback(null, chunk));
+    _read(size) {
+        while (!this._queue.isEmpty() && size > 0) {
+            this.push(this._queue.dequeue());
+            size--;
+        }
     }
+    _write(packet, encoding, callback) {
+        try {
+            pack(packet).then(chunk => {
+                this._queue.enqueue(packet.priority || 'normal', chunk);
+                process.nextTick(_ => this._read(5));
+            });
 
+        } catch (ex) {}
+        return callback();
+    }
 }
+
 
 module.exports = Pack;
