@@ -24,8 +24,8 @@ const server = game.getServer();
 land.forEachChunk(chunk => {
     for (let x = 0; x < 16; x++)
         for (let z = 0; z < 16; z++) {
-            chunk.setBiome(x, z, 'desert');
             chunk.setType(x, 0, z, 'grass');
+            chunk.setBiome(x, z, 'desert');
             for (let y = 0; y < 255; y++) {
                 chunk.setLightSky(x, y, z, 15);
             }
@@ -38,15 +38,12 @@ const banner = fs.readFileSync(__dirname + '/banner.txt')
     .split('\n')
     .filter(Boolean);
 
-const px = banner.length >>> 1;
-const pz = banner[0].length >>> 1;
 for (let x = 0; x < banner.length; x++) {
     for (let z = 0; z < banner[x].length; z++) {
         if (banner[x][z] === '#') {
-            land.setType(x - px, 1, z - pz, 'brick_block');
-            land.setType(x - px, 2, z - pz, 'brick_block');
-            land.setLightBlock(x - px, 1, z - pz, 15);
-            land.setLightBlock(x - px, 2, z - pz, 15);
+            land.setType(x, 1, z, 'brick_block');
+            land.setLightBlock(x, 1, z, 15);
+            land.setLightBlock(x, 2, z, 15);
         }
     }
 }
