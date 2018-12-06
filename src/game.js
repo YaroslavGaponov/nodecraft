@@ -20,6 +20,7 @@ class Game extends EventEmmiter {
             .use(Plugin.chat)
             .use(Plugin.time)
             .use(Plugin.land(options.DISTANCE))
+            .use(Plugin.connector({port:25566}))
             .use(Plugin.ping({
                 PROTOCOL: Parser.PROTOCOL,
                 VERSION: Parser.VERSION,

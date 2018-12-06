@@ -1,6 +1,6 @@
 {
   "name": "nodecraft",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Node.JS Minecraft server",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,7 @@
     "example": "example"
   },
   "scripts": {
-    "demo": "node ./example/server.js",
+    "demo": "cd ./example; make all; cd ..;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yaroslav Gaponov",
@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/YaroslavGaponov/nodecraft/issues"
   },
-  "homepage": "https://github.com/YaroslavGaponov/nodecraft#readme"
+  "homepage": "https://github.com/YaroslavGaponov/nodecraft#readme",
+  "dependencies": {
+    "ws": "^6.1.2"
+  }
 }

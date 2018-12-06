@@ -14,10 +14,7 @@ npm run demo
 
 ```js
 const fs = require('fs');
-const {
-    Game,
-    Components
-} = require('../index.js');
+const Game = require('../index.js');
 
 const game = new Game();
 const land = game.getLand();
@@ -54,27 +51,7 @@ for (let x = 0; x < banner.length; x++) {
     }
 }
 
-// create toggle
-const toggle = new Components.toggle(game, {
-    x: 5,
-    y: 1,
-    z: 5
-});
-toggle
-    .onChanged(flag => console.log(`Flag is ${flag}`))
-    .enabled()
-    .show();
-
-
-// create message
-const message = new Components.message(game, {
-    x: 5,
-    y: 1,
-    z: 1
-});
-message.show();
-
-server.on('packet:handshake', (clientID, packet) => {
+server.on('packet:handshake', clientID => {
         server
             .login(clientID, {
                 eid: 0,
@@ -99,32 +76,6 @@ server.on('packet:handshake', (clientID, packet) => {
                 pitch: 0,
                 on_ground: 1
             });
-
-        setInterval(_ =>
-            message.update(clientID,
-                `Hello
-                ${packet.username}
-                Time:
-                ${new Date().toLocaleTimeString()}`
-            ), 1000);
     })
-
-    .on('packet:keepalive', clientID =>
-        server.explosion(clientID, {
-            x: 0,
-            y: 20,
-            z: 0,
-            radius: 3,
-            records: [
-                [-1, -1, -1],
-                [0, 0, 0],
-                [1, 1, 1]
-            ],
-            player_motion_x: 0,
-            player_motion_y: 0,
-            player_motion_z: 0
-        })
-    )
-
     .start(25565);
 ```

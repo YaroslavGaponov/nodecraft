@@ -3,5 +3,6 @@ module.exports = {
     keepalive: require('./keepalive'),
     chat: require('./chat'),
     time: require('./time'),
-    land: require('./land')
+    land: require('./land'),
+    connector: require('./connector')
 };
