@@ -49,7 +49,6 @@ for (let x = 0; x < banner.length; x++) {
         if (banner[x][z] === '#') {
             land.setType(x, 1, z, 'brick_block');
             land.setLightBlock(x, 1, z, 15);
-            land.setLightBlock(x, 2, z, 15);
         }
     }
 }
