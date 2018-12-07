@@ -18,11 +18,7 @@ land.forEachChunk(chunk => {
 });
 
 //  init banner
-const banner = fs.readFileSync(__dirname + '/banner.txt')
-    .toString()
-    .split('\n')
-    .filter(Boolean);
-
+const banner = fs.readFileSync(__dirname + '/banner.txt').toString().split('\n').filter(Boolean);
 for (let x = 0; x < banner.length; x++) {
     for (let z = 0; z < banner[x].length; z++) {
         if (banner[x][z] === '#') {

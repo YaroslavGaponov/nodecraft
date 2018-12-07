@@ -4,5 +4,5 @@ module.exports = {
     chat: require('./chat'),
     time: require('./time'),
     land: require('./land'),
-    connector: require('./connector')
+    gateway: require('./gateway')
 };

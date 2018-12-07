@@ -1,6 +1,6 @@
 {
   "name": "nodecraft",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Node.JS Minecraft server",
   "main": "index.js",
   "directories": {
@@ -8,8 +8,8 @@
     "example": "example"
   },
   "scripts": {
-    "demo": "cd ./example; make all; cd ..;",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node ./example/server.js",
+    "explosion": "node ./example/routines/explosion.js"
   },
   "author": "Yaroslav Gaponov",
   "license": "MIT",

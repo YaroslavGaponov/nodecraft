@@ -1,8 +1,8 @@
 const net = require('net');
 const stream = require('stream');
-const EventEmmiter = require('events').EventEmitter;
+const Emitter = require('../utils/emitter');
 
-class Server extends EventEmmiter {
+class Server extends Emitter {
     constructor(parser) {
         super();
 
@@ -16,7 +16,6 @@ class Server extends EventEmmiter {
                     packet.priority = p.priority;
                     this.send(clientID, packet);
                     this.emit('packet:' + p.name, clientID, packet, 'server_to_client');
-                    this.emit('packet:*', clientID, packet, 'server_to_client');
                     return this;
                 };
             }
@@ -35,7 +34,6 @@ class Server extends EventEmmiter {
                 objectMode: true,
                 write: (packet, encoding, callback) => {                    
                     this.emit('packet:' + packet.name, clientID, packet, 'client_to_server');
-                    this.emit('packet:*', clientID, packet, 'client_to_server');
                     return callback();
                 },
                 final: callback => {

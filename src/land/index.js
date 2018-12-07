@@ -1,4 +1,4 @@
-const EventEmmiter = require('events').EventEmitter;
+const Emitter = require('../utils/emitter');
 const Chunk = require('./chunk');
 const Block = require('./block');
 
@@ -13,7 +13,7 @@ const DEFAULT_INITIALIZER = chunk => {
         }
 };
 
-class Land extends EventEmmiter {
+class Land extends Emitter {
     constructor() {
         super();
         this._map = new Map();

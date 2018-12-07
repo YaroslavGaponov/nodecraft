@@ -1,10 +1,10 @@
-const EventEmmiter = require('events').EventEmitter;
+const Emitter = require('./utils/emitter');
 const Server = require('./server');
 const Parser = require('./parser');
 const Plugin = require('./plugins');
 const Land = require('./land');
 
-class Game extends EventEmmiter {
+class Game extends Emitter {
 
     constructor(options = {}) {
         super();
@@ -20,7 +20,7 @@ class Game extends EventEmmiter {
             .use(Plugin.chat)
             .use(Plugin.time)
             .use(Plugin.land(options.DISTANCE))
-            .use(Plugin.connector({port:25566}))
+            .use(Plugin.gateway({port:25566}))
             .use(Plugin.ping({
                 PROTOCOL: Parser.PROTOCOL,
                 VERSION: Parser.VERSION,
