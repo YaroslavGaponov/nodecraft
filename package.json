@@ -8,8 +8,8 @@
     "example": "example"
   },
   "scripts": {
-    "server": "node ./example/server.js",
-    "explosion": "node ./example/routines/explosion.js"
+    "server": "node ./example/banner/server.js",
+    "explosion": "node ./example/banner/routines/explosion.js"
   },
   "author": "Yaroslav Gaponov",
   "license": "MIT",

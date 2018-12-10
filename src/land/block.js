@@ -25,6 +25,7 @@ module.exports = Object.freeze({
     dispenser: 23,
     sandstone: 24,
     noteblock: 25,
+    wool: 35, 
     yellow_flower: 37,
     red_mushroom: 40,
     brick_block: 45,
@@ -32,5 +33,6 @@ module.exports = Object.freeze({
     unlit_redstone_torch: 75,
     redstone_torch: 76,
     stone_button: 77,
-    unpowered_repeater: 93
+    unpowered_repeater: 93,
+    glass_pane: 160
 });

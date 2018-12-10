@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Game = require('../index.js');
+const Game = require('../../index.js');
 
 const game = new Game();
 const land = game.getLand();

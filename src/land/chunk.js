@@ -2,17 +2,17 @@ const Block = require('./block');
 const Biome = require('./biome');
 
 const BlockTypeName = [];
-for(let name in Block) {
+for (let name in Block) {
     BlockTypeName[Block[name]] = name;
 }
 
 class Chunk {
     constructor() {
         this._block = Buffer.alloc(16 * 256 * 16, 0);
-        this._meta = Buffer.alloc(16 * 128 * 16, 0);
+        this._addition = Buffer.alloc(16 * 128 * 16, 0);        
         this._lightBlock = Buffer.alloc(16 * 128 * 16, 0);
         this._lightSky = Buffer.alloc(16 * 128 * 16, 0);
-        this._addition = Buffer.alloc(16 * 128 * 16, 0);
+        this._meta = Buffer.alloc(16 * 128 * 16, 0);
         this._bioms = Buffer.alloc(16 * 16, 0);
     }
 
@@ -26,15 +26,15 @@ class Chunk {
         return BlockTypeName[value] || value;
     }
 
-    setMeta(x, y, z, value) {
-        const index = (x | (z << 4) | (y << 8)) >>> 1;
+    setAddition(x, y, z, value) {
+        const index = x | (z << 4) | (y << 8);
 
-        if (x % 2) {
-            this._meta[index] &= 0xf0;
-            this._meta[index] |= (value & 0x0f);
+        if (index % 2) {            
+            this._addition[index>>>1] &= 0xf0;
+            this._addition[index>>>1] |= (value & 0x0f);
         } else {
-            this._meta[index] &= 0x0f;
-            this._meta[index] |= (value << 4) & 0xf0;
+            this._addition[index>>>1] &= 0x0f;
+            this._addition[index>>>1] |= ((value << 4) & 0xf0);
         }
     }
 
@@ -81,20 +81,6 @@ class Chunk {
         }
     }
 
-
-    setAddition(x, y, z, value) {
-        const index = (x | (z << 4) | (y << 8)) >>> 1;
-
-        if (x % 2) {
-            this._addition[index] &= 0xf0;
-            this._addition[index] |= (value & 0x0f);
-        } else {
-            this._addition[index] &= 0x0f;
-            this._addition[index] |= (value << 4) & 0xf0;
-        }
-    }
-
-
     setBiome(x, z, value) {
         value = isNaN(value) ? Biome[value] : +value;
         this._bioms.writeUInt8(value, x | (z << 4));
@@ -105,7 +91,7 @@ class Chunk {
     }
 
     raw() {
-        return Buffer.concat([this._block, this._meta, this._lightBlock, this._lightSky, this._addition, this._bioms]);
+        return Buffer.concat([this._block, this._addition, this._lightBlock, this._lightSky, this._meta, this._bioms]);
     }
 
 }

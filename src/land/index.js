@@ -49,6 +49,15 @@ class Land extends Emitter {
         return this.getChunk(chunkX, chunkZ).getType(x & 0x0f, y, z & 0x0f);
     }
 
+    setAddition(x, y, z, type) {
+        const chunkX = x >> 4;
+        const chunkZ = z >> 4;
+        this.getChunk(chunkX, chunkZ).setAddition(x & 0x0f, y, z & 0x0f, type);
+        this.emit('changed', chunkX, chunkZ);
+        return this;
+    }
+
+
     setLightBlock(x, y, z, light) {
         const chunkX = x >> 4;
         const chunkZ = z >> 4;
@@ -76,6 +85,7 @@ class Land extends Emitter {
         const chunkZ = z >> 4;
         return this.getChunk(chunkX, chunkZ).getLightSky(x & 0x0f, y, z & 0x0f);
     }
+
 
     setBiome(x, z, biome) {
         const chunkX = x >> 4;
