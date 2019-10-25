@@ -8,7 +8,7 @@
     "example": "example"
   },
   "scripts": {
-    "server": "node ./example/banner/server.js",
+    "server": "node ./example/schematics/server.js",
     "explosion": "node ./example/banner/routines/explosion.js"
   },
   "author": "Yaroslav Gaponov",
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/YaroslavGaponov/nodecraft#readme",
   "dependencies": {
+    "nbt-reader": "^1.0.0",
     "ws": "^6.1.2"
   }
 }

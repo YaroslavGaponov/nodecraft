@@ -3,6 +3,7 @@ const Server = require('./server');
 const Parser = require('./parser');
 const Plugin = require('./plugins');
 const Land = require('./land');
+const Schematic = require('./schematic');
 
 class Game extends Emitter {
 
@@ -48,6 +49,14 @@ class Game extends Emitter {
     stop() {
         this.getServer().stop();
         return this;
+    }
+
+    createSchematic(fileName, callback) {
+        const s =  new Schematic(fileName);
+        s.load(err => {
+            if (err) callback(err);
+            else callback(null, s);
+        });
     }
 }
 

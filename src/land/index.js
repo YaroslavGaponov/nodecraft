@@ -101,6 +101,29 @@ class Land extends Emitter {
         return this.getChunk(chunkX, chunkZ).getBiome(x & 0x0f, z & 0x0f);
     }
 
+    loadSchematic(x, y, z, schematic, merge = true) {
+        schematic.load(err => {
+            if (err) return;
+
+            for (let dx = 0; dx < schematic.width; dx++) {
+                for (let dy = 0; dy < schematic.height; dy++) {
+                    for (let dz = 0; dz < schematic.length; dz++) {
+
+                        const blockId = schematic.getBlockId(dx, dy, dz);
+                        const meta = schematic.getMeta(dx, dy, dz);
+
+                        if (merge && blockId === 0 && meta === 0) continue;
+
+                        this.setType(x + dx - (schematic.width >> 1), y + dy, z + dz - (schematic.length >> 1), blockId & 0x0f); // fixed for old version of mc client
+                        this.setAddition(x + dx - (schematic.width >> 1), y + dy, z + dz - (schematic.length >> 1), meta);
+
+                    }
+                }
+            }
+
+        });
+    }
+
 }
 
 module.exports = Land;
