@@ -1,4 +1,4 @@
-const fs = require('fs');
+const os = require('os');
 const Game = require('../../index.js');
 
 const game = new Game();
@@ -17,6 +17,7 @@ land.forEachChunk(chunk => {
         }
 });
 
+
 game.createSchematic(__dirname + '/test.schematic', (err, schematic) => {
     if (err) {
         console.log(err);
@@ -31,6 +32,7 @@ game.createSchematic(__dirname + '/test.schematic', (err, schematic) => {
 });
 
 server.on('packet:handshake', clientID => {
+    console.log('hi ', clientID);
     server
         .login(clientID, {
             eid: 0,
@@ -55,5 +57,19 @@ server.on('packet:handshake', clientID => {
             pitch: 0,
             on_ground: 1
         });
+
+    land.setType(10, 1, 2, 'sign');
+    setInterval(_ => {
+        server.update_sign(clientID, {
+            x: 10,
+            y: 1,
+            z: 2,
+            text1: os.hostname().split('.').shift(),
+            text2: new Date().toLocaleDateString(),
+            text3: new Date().toLocaleTimeString(),
+            text4: Date.now().toString()
+        });
+    }, 500);
+
 })
     .start(25565);
